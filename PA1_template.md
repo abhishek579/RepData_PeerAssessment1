@@ -4,7 +4,7 @@ author: "Abhishek Mehrotra"
 date: "1 September 2017"
 output: html_document
 ---  
-##Activity Monitoring Data
+## Activity Monitoring Data
   
 It is now possible to collect a large amount of data about personal movement using activity monitoring devices such as a [Fitbit][1], [Nike Fuelband][2], or [Jawbone Up][3]. These type of devices are part of the "*quantified self*" movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. But these data remain under-utilized both because the raw data are hard to obtain and there is a lack of statistical methods and software for processing and interpreting the data.  
   
@@ -23,7 +23,7 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 
 
   
-###Loading and preprocessing the data
+### Loading and preprocessing the data
 
 ```r
 activity <- read.csv(file = "./activity.csv", header = T, na.strings = "NA")
@@ -38,7 +38,7 @@ str(activity)
 ##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
 ```
 
-####Calculation of the total steps per day, and the mean and median of the total steps per day:
+#### Calculation of the total steps per day, and the mean and median of the total steps per day:
 
 ```r
 dailysteps <- aggregate(steps ~ date, data = activity, FUN=sum)
@@ -46,7 +46,7 @@ mean_steps <- mean(dailysteps$steps)
 median_steps <- median(dailysteps$steps)
 ```
 
-####Histogram of the total number of steps taken each day:
+#### Histogram of the total number of steps taken each day:
 
 ```r
 hist(x = dailysteps$steps, breaks = 20, main = "Total number of steps taken each day", 
@@ -59,7 +59,7 @@ box()
 - Mean of the total number of steps taken per day = 10766.19.
 - Median of the total number of steps taken per day = 10765.
 
-####Time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+#### Time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
 ```r
 interval_steps <- aggregate(steps ~ interval, data = activity, FUN = mean)
@@ -73,9 +73,9 @@ with(interval_steps, {
 
 ![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-1.png)
 
-###What is mean total number of steps taken per day?  
+### What is mean total number of steps taken per day?  
 
-####Calculation of the total number of steps per 5-minute interval, across all days
+#### Calculation of the total number of steps per 5-minute interval, across all days
 
 ```r
 sum_interval <- aggregate(steps ~ interval, data = activity, FUN = sum)
@@ -85,8 +85,8 @@ max_interval <- sum_interval[sum_interval$steps==max(sum_interval$steps), ]$inte
 - The 5-minute interval containing the maximum number of steps, on average across all the days in the dataset is 835.
 
 
-###Imputing missing values
-####Calculation of the total number of missing values in the dataset
+### Imputing missing values
+#### Calculation of the total number of missing values in the dataset
 
 ```r
 na_count <- sum(is.na(activity))
@@ -105,7 +105,7 @@ for(i in 1:nrow(imputed_activity)){
 }
 ```
 
-####Histogram of the total number of steps taken each day (using the imputed dataset)
+#### Histogram of the total number of steps taken each day (using the imputed dataset)
 
 ```r
 imputed_dailysteps <- aggregate(steps ~ date, data = imputed_activity, FUN = sum)
@@ -126,7 +126,7 @@ box()
    
 Also, the total number of steps taken per day increases after imputing the missing data.  
   
-###Are there differences in activity patterns between weekdays and weekends?
+### Are there differences in activity patterns between weekdays and weekends?
 - A new factor variable is inserted in the imputed dataset (imputed_activity) with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
 
 ```r
@@ -136,7 +136,7 @@ imputed_activity$wday = factor(x=wday, labels = c("weekday", "weekend"))
 ```
 
 
-####Panel plot containing a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis)
+#### Panel plot containing a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis)
 
 ```r
 imputed_meandailysteps <- aggregate(steps ~ interval*wday, data = imputed_activity, FUN = mean)
